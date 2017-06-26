@@ -18,9 +18,10 @@ public class SetupPanel extends JPanel {
 
 	private static final long serialVersionUID = -7567027577115621802L;
 
+	private JTextField host;
+	private JTextField SID;
 	private JTextField user;
 	private JPasswordField password;
-	private JTextField host;
 
 	private JButton connect;
 
@@ -38,49 +39,55 @@ public class SetupPanel extends JPanel {
 		oracleLabel.setBackground(MainFrame.BACKGROUND_COLOR);
 		oracleLabel.setOpaque(true);
 		oracleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		oracleLabel.setBounds(100, 240, 75, 20);
+		oracleLabel.setBounds(100, 215, 75, 20);
 
 		JLabel hostLabel = new JLabel("Host:");
+		JLabel SIDLabel = new JLabel("SID:");
 		JLabel userLabel = new JLabel("User:");
 		JLabel passwordLabel = new JLabel("Password:");
 
 		hostLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		SIDLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		userLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		passwordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		hostLabel.setBounds(100, 275, 75, 25);
-		userLabel.setBounds(100, 325, 75, 25);
-		passwordLabel.setBounds(100, 375, 75, 25);
+		hostLabel.setBounds(100, 250, 75, 25);
+		SIDLabel.setBounds(100, 300, 75, 25);
+		userLabel.setBounds(100, 350, 75, 25);
+		passwordLabel.setBounds(100, 400, 75, 25);
 
 		host = new JTextField();
+		SID = new JTextField();
 		user = new JTextField();
 		password = new JPasswordField();
 
-		host.setBounds(200, 275, 300, 25);
-		user.setBounds(200, 325, 300, 25);
-		password.setBounds(200, 375, 300, 25);
+		host.setBounds(200, 250, 300, 25);
+		SID.setBounds(200, 300, 300, 25);
+		user.setBounds(200, 350, 300, 25);
+		password.setBounds(200, 400, 300, 25);
 
 		connect = new JButton("Connect");
-		connect.setBounds(411, 416, 89, 23);
+		connect.setBounds(400, 430, 100, 20);
 
 		JSeparator topSeparator = new JSeparator();
 		JSeparator leftSeparator = new JSeparator();
 		JSeparator bottomSeparator = new JSeparator();
 		JSeparator rightSeparator = new JSeparator();
 
-		topSeparator.setBounds(75, 250, 450, 1);
-		leftSeparator.setBounds(75, 250, 1, 200);
-		bottomSeparator.setBounds(75, 450, 450, 1);
-		rightSeparator.setBounds(525, 250, 1, 200);
+		topSeparator.setBounds(75, 225, 450, 1);
+		leftSeparator.setBounds(75, 225, 1, 250);
+		bottomSeparator.setBounds(75, 475, 450, 1);
+		rightSeparator.setBounds(525, 225, 1, 250);
 
 		leftSeparator.setOrientation(SwingConstants.VERTICAL);
 		rightSeparator.setOrientation(SwingConstants.VERTICAL);
 
 		add(oracleLabel);
 
+		add(hostLabel);
+		add(SIDLabel);
 		add(userLabel);
 		add(passwordLabel);
-		add(hostLabel);
 
 		add(topSeparator);
 		add(leftSeparator);
@@ -88,6 +95,7 @@ public class SetupPanel extends JPanel {
 		add(rightSeparator);
 
 		add(host);
+		add(SID);
 		add(user);
 		add(password);
 
@@ -96,6 +104,7 @@ public class SetupPanel extends JPanel {
 
 	public void setupButtons(MainFrame frame) {
 		MainFrame.linkTextField(host, frame.getMenuPanel());
+		MainFrame.linkTextField(SID, frame.getMenuPanel());
 		MainFrame.linkTextField(user, frame.getMenuPanel());
 		MainFrame.linkTextField(password, frame.getMenuPanel());
 
@@ -104,11 +113,12 @@ public class SetupPanel extends JPanel {
 
 	// Returns true if connection was successful
 	public boolean connect() {
-		return Oracle.initialize(host.getText(), user.getText(), new String(password.getPassword()));
+		return Oracle.initialize(host.getText(), user.getText(), new String(password.getPassword()), SID.getText());
 	}
 
 	public void clear() {
 		host.setText("");
+		SID.setText("");
 		user.setText("");
 		password.setText("");
 

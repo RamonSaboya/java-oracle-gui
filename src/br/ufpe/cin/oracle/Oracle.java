@@ -12,9 +12,9 @@ public class Oracle {
 
 	private static Oracle INSTANCE;
 
-	public static boolean initialize(String address, String username, String password) {
+	public static boolean initialize(String address, String username, String password, String SID) {
 		try {
-			INSTANCE = new Oracle(address, username, password);
+			INSTANCE = new Oracle(address, username, password, SID);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 
@@ -35,13 +35,13 @@ public class Oracle {
 	private List<Connection> connections;
 	private AtomicInteger currentConnection;
 
-	private Oracle(String address, String username, String password) throws SQLException {
+	private Oracle(String address, String username, String password, String SID) throws SQLException {
 		this.connections = new ArrayList<Connection>();
 		this.currentConnection = new AtomicInteger(0);
 
 		// Setup connection pool
 		for (int i = 1; i <= POOL_SIZE; i++) {
-			connections.add(createConnection(address, username, password));
+			connections.add(createConnection(address, username, password, SID));
 		}
 
 		// Create table
@@ -57,8 +57,8 @@ public class Oracle {
 		}
 	}
 
-	private Connection createConnection(String address, String user, String password) throws SQLException {
-		String URL = "jdbc:oracle:thin:@" + address + ":1521:XE";
+	private Connection createConnection(String address, String user, String password, String SID) throws SQLException {
+		String URL = "jdbc:oracle:thin:@" + address + ":1521:" + SID;
 
 		return DriverManager.getConnection(URL, user, password);
 	}
