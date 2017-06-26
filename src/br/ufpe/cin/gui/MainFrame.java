@@ -5,7 +5,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import br.ufpe.cin.gui.panel.DownloadPanel;
 import br.ufpe.cin.gui.panel.ListPanel;
@@ -24,6 +26,9 @@ public class MainFrame extends JFrame {
 	}
 
 	public static final Color BACKGROUND_COLOR = new Color(220, 220, 220);
+
+	// 4kb buffer
+	public static final int BUFFER_SIZE = 4 * 1024;
 
 	// App panels
 	private SetupPanel setupPanel;
@@ -89,10 +94,34 @@ public class MainFrame extends JFrame {
 		this.uploadPanel = new UploadPanel(this);
 		this.listPanel = new ListPanel(this);
 		this.downloadPanel = new DownloadPanel(this);
+
+		// Setup buttons
+		this.setupPanel.setupButtons(this);
+		this.menuPanel.setupButtons(this);
 	}
 
 	public void setPanel(JPanel panel) {
+		// Process connection
+		if (getContentPane() instanceof SetupPanel) {
+			if (!this.setupPanel.connect()) {
+				JOptionPane.showMessageDialog(this, "Could not connect to Oracle server.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			} else {
+				// Update list of files in the table
+				this.listPanel.updateList();
+			}
+
+			// Clear connection data
+			this.setupPanel.clear();
+		}
+
 		setContentPane(panel);
+
+		// Set the focus to the field
+		// Worst possible way
+		if (panel instanceof DownloadPanel) {
+			this.downloadPanel.grabFocus();
+		}
 	}
 
 	// Default back page button
@@ -106,6 +135,20 @@ public class MainFrame extends JFrame {
 		back.setBounds(25, 650, 100, 25);
 
 		return back;
+	}
+
+	// Creates link button -> panel
+	public static void linkButton(JButton button, JPanel panel) {
+		button.addActionListener((event) -> {
+			MainFrame.getInstance().setPanel(panel);
+		});
+	}
+
+	// Creates link field -> panel
+	public static void linkTextField(JTextField textField, JPanel panel) {
+		textField.addActionListener((event) -> {
+			MainFrame.getInstance().setPanel(panel);
+		});
 	}
 
 }

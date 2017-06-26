@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import br.ufpe.cin.gui.MainFrame;
+import br.ufpe.cin.oracle.Oracle;
 
 public class SetupPanel extends JPanel {
 
@@ -91,6 +92,19 @@ public class SetupPanel extends JPanel {
 		add(password);
 
 		add(connect);
+	}
+
+	public void setupButtons(MainFrame frame) {
+		MainFrame.linkTextField(host, frame.getMenuPanel());
+		MainFrame.linkTextField(user, frame.getMenuPanel());
+		MainFrame.linkTextField(password, frame.getMenuPanel());
+
+		MainFrame.linkButton(connect, frame.getMenuPanel());
+	}
+
+	// Returns true if connection was successful
+	public boolean connect() {
+		return Oracle.initialize(host.getText(), user.getText(), new String(password.getPassword()));
 	}
 
 	public void clear() {

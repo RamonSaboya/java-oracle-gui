@@ -50,4 +50,10 @@ public class MenuPanel extends JPanel {
 		add(back);
 	}
 
+	public void setupButtons(MainFrame frame) {
+		MainFrame.linkButton(upload, frame.getUploadPanel());
+		MainFrame.linkButton(list, frame.getListPanel());
+		MainFrame.linkButton(download, frame.getDownloadPanel());
+	}
+
 }
