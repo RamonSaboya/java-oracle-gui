@@ -59,7 +59,7 @@ public class MainFrame extends JFrame {
 		setBounds(0, 0, 600, 740);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Oracle DB");
+		setTitle("Oracle File Storage");
 
 		generatePanels();
 
